@@ -173,7 +173,7 @@ namespace macro
 
             Thread.Sleep(1000);
             if (AtScoreboard())
-                Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
+                KeyPress(VirtualKeyCode.ESCAPE);
 
             Console.WriteLine("Battle finished");
             Thread.Sleep(1000);
@@ -205,7 +205,10 @@ namespace macro
         public bool AtScoreboard()
         {
             if (GetPixelColor(Scoreboard) == ScoreboardColor)
+            {
+                Console.WriteLine("At the scoreboard screen");
                 return true;
+            }
             else return false;
         }
 
