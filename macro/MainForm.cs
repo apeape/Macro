@@ -23,7 +23,7 @@ namespace macro
 
         private void Start_Click(object sender, EventArgs e)
         {
-            Macro macro = new Macro(new bool[] { Slot1.Checked, Slot2.Checked, Slot3.Checked, Slot4.Checked });
+            Macro macro = new Macro(new bool[] { Slot1.Checked, Slot2.Checked, Slot3.Checked, Slot4.Checked }, (int)TotalSlots.Value);
             macro.Start();
         }
     }

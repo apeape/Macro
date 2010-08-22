@@ -34,7 +34,10 @@
             this.Slot2 = new System.Windows.Forms.CheckBox();
             this.Slot3 = new System.Windows.Forms.CheckBox();
             this.Slot4 = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.TotalSlots = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TotalSlots)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -45,7 +48,7 @@
             this.groupBox1.Controls.Add(this.Slot1);
             this.groupBox1.Location = new System.Drawing.Point(5, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(68, 84);
+            this.groupBox1.Size = new System.Drawing.Size(68, 85);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tanks";
@@ -106,18 +109,48 @@
             this.Slot4.Text = "Slot 4";
             this.Slot4.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(76, 68);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(57, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Total Slots";
+            // 
+            // TotalSlots
+            // 
+            this.TotalSlots.Location = new System.Drawing.Point(139, 65);
+            this.TotalSlots.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.TotalSlots.Name = "TotalSlots";
+            this.TotalSlots.Size = new System.Drawing.Size(53, 20);
+            this.TotalSlots.TabIndex = 4;
+            this.TotalSlots.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(250, 95);
+            this.ClientSize = new System.Drawing.Size(250, 96);
+            this.Controls.Add(this.TotalSlots);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.Start);
             this.Controls.Add(this.groupBox1);
             this.Name = "MainForm";
             this.Text = "world of tanks macro";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TotalSlots)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -129,6 +162,8 @@
         private System.Windows.Forms.CheckBox Slot3;
         private System.Windows.Forms.CheckBox Slot2;
         private System.Windows.Forms.CheckBox Slot1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown TotalSlots;
     }
 }
 

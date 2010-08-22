@@ -41,11 +41,17 @@ namespace macro
         private Point Scoreboard = new Point(941, 163);
         private Color ScoreboardColor = Color.FromArgb(82, 76, 61);
 
+        private Point HealthBar = new Point(169, 560);
+
+        private Point ExitBattleButton = new Point(503, 370);
+        private Point ExitYesButton = new Point(558, 437);
+
         private Point[] SlotCoordinates = {
             new Point(180, 660), // slot 1
             new Point(345, 660), // slot 2
             new Point(500, 660), // slot 3
             new Point(700, 660), // slot 4
+            new Point(855, 660), // slot 5
         };
 
         private WindowsInput.Native.VirtualKeyCode[] MovementKeysForwardReverse = {
@@ -69,6 +75,7 @@ namespace macro
         private MouseSimulator Mouse = new MouseSimulator();
         private KeyboardSimulator Keyboard = new KeyboardSimulator();
         private Random Random = new Random();
+        private int TotalSlots;
 
         public bool[] EnabledSlots { get; set; }
 
@@ -76,9 +83,10 @@ namespace macro
         /// Set which slots you want to enable the macro to use
         /// </summary>
         /// <param name="EnabledSlots"></param>
-        public Macro(bool[] EnabledSlots)
+        public Macro(bool[] EnabledSlots, int TotalSlots)
         {
             this.EnabledSlots = EnabledSlots;
+            this.TotalSlots = TotalSlots;
         }
 
         public bool Start()
@@ -87,6 +95,12 @@ namespace macro
                 return false;
             else
             {
+                if (GameRect.Width != 1024)
+                {
+                    Console.WriteLine("Found game. Incorrect window dimensions, set the game to 1024x768");
+                    return false;
+                }
+
                 Console.WriteLine("Found game, window size: " + GameRect.Width + "x" + GameRect.Height);
 
                 // get focus since we need it
@@ -98,7 +112,8 @@ namespace macro
 
                 Thread.Sleep(1000);
 
-                //Console.WriteLine(GetPixelColor(Scoreboard));
+                //for (int i = 0; i < 500; i++)
+                    //Console.WriteLine(GetPixelColor(HealthBar));
                 //while(true)
                     //RandomMovement();
                 //return true;
@@ -131,15 +146,29 @@ namespace macro
             Console.WriteLine("Loading...");
             while (!InBattle())
                 Thread.Sleep(100);
+
+            Console.WriteLine("Waiting for countdown...");
             Thread.Sleep(PreBattleCountdownTime);
 
-            Console.WriteLine("Battle started");
-            Mouse.MoveMouseBy(0, -200); // line turret up horizontally
+            Console.WriteLine("Battle started, moving around like a wanker");
+            Mouse.MoveMouseBy(0, -170); // line turret up horizontally
 
             while (!AtMenu() && !AtScoreboard())
             {
                 RandomMovement();
-                Thread.Sleep(Random.Next(500, 10000));
+                // check if we're dead
+                for (int i = 0; i < 100; i++)
+                {
+                    if (Dead())
+                    {
+                        Console.WriteLine("Tank has been knocked out, exiting battle");
+                        ExitBattle();
+                        Thread.Sleep(1000);
+                        return;
+                    }
+                    Thread.Sleep(1);
+                }
+                Thread.Sleep(Random.Next(500, 5000));
             }
 
             Thread.Sleep(1000);
@@ -152,19 +181,38 @@ namespace macro
 
         public bool InBattle()
         {
-            if (GetPixelColor(MiniMap) == MiniMapColor) return true;
+            if (GetPixelColor(MiniMap) == MiniMapColor)
+                return true;
+            else return false;
+        }
+
+        public void ExitBattle()
+        {
+            Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
+            Thread.Sleep(500);
+            LeftClick(ExitBattleButton);
+            Thread.Sleep(500);
+            LeftClick(ExitYesButton);
+        }
+
+        public bool Dead()
+        {
+            if (GetPixelColor(HealthBar).R >= 245)
+                return true;
             else return false;
         }
 
         public bool AtScoreboard()
         {
-            if (GetPixelColor(Scoreboard) == ScoreboardColor) return true;
+            if (GetPixelColor(Scoreboard) == ScoreboardColor)
+                return true;
             else return false;
         }
 
         public bool AtMenu()
         {
-            if (GetPixelColor(MenuLogo) == MenuLogoColor) return true;
+            if (GetPixelColor(MenuLogo) == MenuLogoColor)
+                return true;
             else return false;
         }
 
@@ -183,7 +231,7 @@ namespace macro
             {
                 // turn the turret
                 //KeyDown(arrow);
-                Mouse.MoveMouseBy(Random.Next(-500, 500), 0);
+                Mouse.MoveMouseBy(Random.Next(-700, 700), 0);
             }
 
             if (move)
@@ -222,7 +270,8 @@ namespace macro
             for (int i = 0; i < EnabledSlots.Length; i++)
                 if (EnabledSlots[i] == true)
                 {
-                    LeftClick(SlotCoordinates[i]);
+                    // offset slot coordinates if more than 4 slots exist (due to the stupid crap that appears on the left)
+                    LeftClick(SlotCoordinates[i + (TotalSlots >= 5 ? 1 : 0)]);
 
                     Thread.Sleep(2000); // loading
 
