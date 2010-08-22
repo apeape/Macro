@@ -130,7 +130,7 @@
             this.TotalSlots.Size = new System.Drawing.Size(53, 20);
             this.TotalSlots.TabIndex = 4;
             this.TotalSlots.Value = new decimal(new int[] {
-            5,
+            4,
             0,
             0,
             0});

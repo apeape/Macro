@@ -64,9 +64,13 @@ namespace macro
             VirtualKeyCode.VK_D,
         };
 
-        private WindowsInput.Native.VirtualKeyCode[] MovementKeysArrows = {
-            VirtualKeyCode.LEFT,
-            VirtualKeyCode.RIGHT,
+        private WindowsInput.Native.VirtualKeyCode[] RadioKeys = {
+            VirtualKeyCode.F2,
+            VirtualKeyCode.F3,
+            VirtualKeyCode.F4,
+            VirtualKeyCode.F5,
+            VirtualKeyCode.F6,
+            VirtualKeyCode.F7,
         };
 
         private IntPtr hWnd = IntPtr.Zero;
@@ -168,7 +172,8 @@ namespace macro
                     }
                     Thread.Sleep(1);
                 }
-                Thread.Sleep(Random.Next(500, 5000));
+                if (!AtScoreboard())
+                    Thread.Sleep(Random.Next(500, 5000));
             }
 
             Thread.Sleep(1000);
@@ -229,6 +234,12 @@ namespace macro
 
             var direction1 = MovementKeysForwardReverse[Random.Next(0, 2)];
 
+            // do random radio chat
+            if (Random.NextDouble() >= 0.98)
+            {
+                KeyPress(RadioKeys[Random.Next(0, RadioKeys.Length)]);
+            }
+
             // turn the turret
             Mouse.MoveMouseBy(Random.Next(-700, 700), 0);
 
@@ -269,7 +280,11 @@ namespace macro
                 if (EnabledSlots[i] == true)
                 {
                     // offset slot coordinates if more than 4 slots exist (due to the stupid crap that appears on the left)
-                    LeftClick(SlotCoordinates[i + (TotalSlots >= 5 ? 1 : 0)]);
+                    var coords = SlotCoordinates[i + (TotalSlots >= 5 ? 1 : 0)];
+                    // click multiple times cause sometimes it fails :(
+                    LeftClick(coords);
+                    LeftClick(coords);
+                    LeftClick(coords);
 
                     Thread.Sleep(2000); // loading
 
