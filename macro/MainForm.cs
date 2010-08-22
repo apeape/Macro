@@ -19,8 +19,11 @@ namespace macro
             ConsoleFunctions.AllocConsole();
             Console.CursorVisible = false;
             Console.Title = "macro console";
+        }
 
-            Macro macro = new Macro();
+        private void Start_Click(object sender, EventArgs e)
+        {
+            Macro macro = new Macro(new bool[] { Slot1.Checked, Slot2.Checked, Slot3.Checked, Slot4.Checked });
             macro.Start();
         }
     }

@@ -861,5 +861,27 @@ namespace macro
             /// </summary>
             SM_REMOTECONTROL = 0x2001,
         }
+
+        /// <summary>
+        /// The MapVirtualKey function translates (maps) a virtual-key code into a scan
+        /// code or character value, or translates a scan code into a virtual-key code    
+        /// </summary>
+        /// <param name="uCode">[in] Specifies the virtual-key code or scan code for a key.
+        /// How this value is interpreted depends on the value of the uMapType parameter
+        /// </param>
+        /// <param name="uMapType">[in] Specifies the translation to perform. The value of this
+        /// parameter depends on the value of the uCode parameter.
+        /// </param>
+        /// <returns>Either a scan code, a virtual-key code, or a character value, depending on
+        /// the value of uCode and uMapType. If there is no translation, the return value is zero
+        /// </returns>
+        [DllImport("user32.dll")]
+        internal static extern int MapVirtualKey(uint uCode, uint uMapType);
+
+        public const uint MAPVK_VK_TO_VSC = 0x00;
+        public const uint MAPVK_VSC_TO_VK = 0x01;
+        public const uint MAPVK_VK_TO_CHAR = 0x02;
+        public const uint MAPVK_VSC_TO_VK_EX = 0x03;
+        public const uint MAPVK_VK_TO_VSC_EX = 0x04;
     }
 }
