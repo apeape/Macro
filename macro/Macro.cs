@@ -14,8 +14,8 @@ namespace macro
     public class Macro
     {
         const int LoadingTime = 30000; // milliseconds
-        const int PreBattleCountdownTime = 30000; // milliseconds
-        const int NoTanksDelay = 10000; // milliseconds
+        const int PreBattleCountdownTime = 32000; // milliseconds
+        const int NoTanksDelay = 30000; // milliseconds
 
         const string WindowTitle = "W.o.T. Client";
 
@@ -188,7 +188,7 @@ namespace macro
 
         public void ExitBattle()
         {
-            Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
+            KeyPress(VirtualKeyCode.ESCAPE);
             Thread.Sleep(500);
             LeftClick(ExitBattleButton);
             Thread.Sleep(500);
@@ -223,16 +223,11 @@ namespace macro
         {
             bool move = RandomBool();
             bool turn = RandomBool();
-            bool aim = RandomBool();
 
             var direction1 = MovementKeysForwardReverse[Random.Next(0, 2)];
 
-            if (aim)
-            {
-                // turn the turret
-                //KeyDown(arrow);
-                Mouse.MoveMouseBy(Random.Next(-700, 700), 0);
-            }
+            // turn the turret
+            Mouse.MoveMouseBy(Random.Next(-700, 700), 0);
 
             if (move)
             {
@@ -245,7 +240,7 @@ namespace macro
                 // turn left or right
                 var direction2 = MovementKeysLeftRight[Random.Next(0, 2)];
                 KeyDown(direction2);
-                Thread.Sleep(Random.Next(500, 3000));
+                Thread.Sleep(Random.Next(500, 7000));
                 KeyUp(direction2);
             }
 
@@ -333,6 +328,13 @@ namespace macro
 
         public void KeyUp(VirtualKeyCode key)
         {
+            Win32.keybd_event((byte)key, (byte)Win32.MapVirtualKey((byte)key, Win32.MAPVK_VK_TO_VSC), (uint)KeyboardFlag.KeyUp, 0);
+        }
+
+        public void KeyPress(VirtualKeyCode key)
+        {
+            Win32.keybd_event((byte)key, (byte)Win32.MapVirtualKey((byte)key, Win32.MAPVK_VK_TO_VSC), 0, 0);
+            Thread.Sleep(10);
             Win32.keybd_event((byte)key, (byte)Win32.MapVirtualKey((byte)key, Win32.MAPVK_VK_TO_VSC), (uint)KeyboardFlag.KeyUp, 0);
         }
 
