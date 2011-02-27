@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="WindowsInput, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\inputsimulator-63489\WindowsInput\bin\Release\WindowsInput.dll</HintPath>
+      <HintPath>deps\WindowsInput.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

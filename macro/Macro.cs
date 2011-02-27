@@ -13,18 +13,19 @@ namespace macro
 {
     public class Macro
     {
+        const bool debug = true;
         const int LoadingTime = 30000; // milliseconds
         const int PreBattleCountdownTime = 32000; // milliseconds
         const int NoTanksDelay = 30000; // milliseconds
 
         const string WindowTitle = "W.o.T. Client";
 
-        private Point MenuLogo = new Point(134, 67);
-        private Color MenuLogoColor = Color.FromArgb(187, 83, 23);
+        private Point MenuButton = new Point(19, 18);
+        private Color MenuButtonColor = Color.FromArgb(125, 86, 36);
 
         private Point BattleButton = new Point(447, 40);
-        private Color BattleButtonRed = Color.FromArgb(148, 21, 19);
-        private Color BattleButtonGrey = Color.FromArgb(48, 46, 35);
+        private Color BattleButtonRed = Color.FromArgb(166, 35, 32);
+        private Color BattleButtonGrey = Color.FromArgb(99, 98, 79);
 
         private Point TankInBattle = new Point(417, 318);
         private Color TankInBattleColor = Color.FromArgb(255, 0, 0);
@@ -111,15 +112,15 @@ namespace macro
                 Win32.SetForegroundWindow(hWnd);
 
 
-                //MoveMouseTo(GameRect.Width - 50, 25); // "menu" button at 1680x1050 resolution
-                //mouse.LeftButtonClick();
-
                 Thread.Sleep(1000);
 
                 //for (int i = 0; i < 500; i++)
                     //Console.WriteLine(GetPixelColor(HealthBar));
                 //while(true)
                     //RandomMovement();
+
+                //MoveMouseTo(GameRect.Width - 50, 25); // "menu" button at 1680x1050 resolution
+                //Mouse.LeftButtonClick();
                 //return true;
 
                 if (!AtMenu())
@@ -219,7 +220,7 @@ namespace macro
 
         public bool AtMenu()
         {
-            if (GetPixelColor(MenuLogo) == MenuLogoColor)
+            if (GetPixelColor(MenuButton) == MenuButtonColor)
                 return true;
             else return false;
         }
@@ -271,7 +272,7 @@ namespace macro
         /// </summary>
         /// <returns></returns>
         public bool FindTank()
-        {
+        {/*
             // any slots enabled?
             if (EnabledSlots.Count(q => q == true) == 0) return false;
 
@@ -309,7 +310,8 @@ namespace macro
                     }
                 }
 
-            return false;
+            return false;*/
+            return true; // todo: fix this
         }
 
         /// <summary>
@@ -320,7 +322,9 @@ namespace macro
         /// <returns></returns>
         public Color GetPixelColor(int x, int y)
         {
-            return Win32.GetPixelColor(GameCorner.X + x, GameCorner.Y + y);
+            Color color = Win32.GetPixelColor(GameCorner.X + x, GameCorner.Y + y);
+            if (debug) Console.WriteLine("Got " + color.ToString() + " from " + x + ", " + y);
+            return color;
         }
 
         public Color GetPixelColor(Point coords)
